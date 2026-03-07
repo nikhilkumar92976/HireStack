@@ -1,0 +1,24 @@
+import { createBrowserRouter } from "react-router";
+import Login from "./features/auth/pages/Login"
+import Singup from "./features/auth/pages/Singup";
+import Home from "./features/AI/Home";
+import Protected from "./features/auth/components/Protected"
+import PublicRoute from "./features/auth/components/PublicRoute"
+
+
+
+export const router = createBrowserRouter([
+    {
+        path: "/login",
+        element: <PublicRoute><Login /></PublicRoute>
+    },
+    {
+        path: "/singup",
+        element: <PublicRoute><Singup /></PublicRoute>
+    },
+    {
+        path: "/",
+        element: <Protected><Home /></Protected>
+    },
+    
+])
