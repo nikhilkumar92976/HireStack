@@ -1,14 +1,14 @@
 const { GoogleGenAI } = require("@google/genai")
 const { z } = require("zod")
 const { zodToJsonSchema } = require("zod-to-json-schema")
-const puppeteer = require("puppeteer")
+// const puppeteer = require("puppeteer")
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GOOGLE_GENAI_API_KEY
 })
 
 
-const interviewReportSchema = z.object({
+const resumeAnalysisSchema = z.object({
     matchScore: z.number().describe("A score between 0 and 100 indicating how well the candidate's profile matches the job describe"),
     technicalQuestions: z.array(z.object({
         question: z.string().describe("The technical question can be asked in the interview"),
@@ -16,7 +16,7 @@ const interviewReportSchema = z.object({
         answer: z.string().describe("How to answer this question, what points to cover, what approach to take etc.")
     })).describe("Technical questions that can be asked in the interview along with their intention and how to answer them"),
     behavioralQuestions: z.array(z.object({
-        question: z.string().describe("The technical question can be asked in the interview"),
+        question: z.string().describe("The behavioral question can be asked in the interview"),
         intention: z.string().describe("The intention of interviewer behind asking this question"),
         answer: z.string().describe("How to answer this question, what points to cover, what approach to take etc.")
     })).describe("Behavioral questions that can be asked in the interview along with their intention and how to answer them"),
@@ -32,7 +32,7 @@ const interviewReportSchema = z.object({
     title: z.string().describe("The title of the job for which the interview report is generated"),
 })
 
-async function generateInterviewReport({ resume, selfDescription, jobDescription }) {
+async function generateResumeAnalysisReport({ resume, selfDescription, jobDescription }) {
 
 
     const prompt = `Generate an interview report for a candidate with the following details:
@@ -46,7 +46,7 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
         contents: prompt,
         config: {
             responseMimeType: "application/json",
-            responseSchema: zodToJsonSchema(interviewReportSchema),
+            responseSchema: zodToJsonSchema(resumeAnalysisSchema),
         }
     })
 
@@ -56,24 +56,24 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
 
 
 
-async function generatePdfFromHtml(htmlContent) {
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: "networkidle0" })
+// async function generatePdfFromHtml(htmlContent) {
+//     const browser = await puppeteer.launch()
+//     const page = await browser.newPage();
+//     await page.setContent(htmlContent, { waitUntil: "networkidle0" })
 
-    const pdfBuffer = await page.pdf({
-        format: "A4", margin: {
-            top: "20mm",
-            bottom: "20mm",
-            left: "15mm",
-            right: "15mm"
-        }
-    })
+//     const pdfBuffer = await page.pdf({
+//         format: "A4", margin: {
+//             top: "20mm",
+//             bottom: "20mm",
+//             left: "15mm",
+//             right: "15mm"
+//         }
+//     })
 
-    await browser.close()
+//     await browser.close()
 
-    return pdfBuffer
-}
+//     return pdfBuffer
+// }
 
 async function generateResumePdf({ resume, selfDescription, jobDescription }) {
 
@@ -112,4 +112,4 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
 
 }
 
-module.exports = { generateInterviewReport, generateResumePdf }
+module.exports = { generateResumeAnalysisReport, generateResumePdf }

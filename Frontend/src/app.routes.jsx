@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import Login from "./features/auth/pages/Login"
 import Singup from "./features/auth/pages/Singup";
-import Home from "./features/AI/Home";
+import Home from "../src/pages/Home";
 import Protected from "./features/auth/components/Protected"
 import PublicRoute from "./features/auth/components/PublicRoute"
 

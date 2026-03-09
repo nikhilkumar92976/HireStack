@@ -44,7 +44,7 @@ const Signup = () => {
 
         {/* App Name / Logo */}
         <h1 className="text-3xl font-semibold text-center mb-8">
-          Learnify
+          Hirestack
         </h1>
 
         {/* Signup Form UI */}

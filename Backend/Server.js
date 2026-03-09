@@ -7,7 +7,8 @@ const cors = require('cors')
 
 
 //imports routes
-const authRoute = require('./routes/auth.route')
+const authRouter = require('./routes/auth.route')
+const resumeAnalysisRouter = require('./routes/resume.Analysis.route')
 
 const PORT = process.env.PORT || 3000
 
@@ -24,7 +25,8 @@ app.use(cors({
 
 
 //using all routes
-app.use('/auth',authRoute);
+app.use('/auth',authRouter);
+app.use('/resume',resumeAnalysisRouter)
 
 app.listen(PORT,(req,res)=>{
     console.log(`APP is Listen on the PORT Number ${PORT}`)

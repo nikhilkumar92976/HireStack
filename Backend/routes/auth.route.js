@@ -10,9 +10,9 @@ const authController = require('../controllers/auth.controller')
 
 
 //Routs for Auth
-router.post('/singup',authController.createAccount);
-router.post('/login',authController.login)
-router.post('/logout',authMiddlewares,authController.userLogout)
+router.post('/singup',authController.createAccount); // intregated
+router.post('/login',authController.login) // intregated
+router.post('/logout',authMiddlewares,authController.userLogout) // intregated
 
 router.delete('/delete/account',authMiddlewares,authController.deleteAccount)
 router.patch('/updatepassword',authMiddlewares,authController.updateUserPassword)
