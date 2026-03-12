@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuth } from "../features/auth/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Brain,
@@ -13,6 +14,11 @@ import {
 
 const Home = () => {
   const { handleLogout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
 
   return (
     <div className="flex min-h-screen bg-[#f5f5f3] text-gray-900">
@@ -27,7 +33,11 @@ const Home = () => {
         <nav className="space-y-2 text-sm">
 
           <SidebarItem icon={<LayoutDashboard size={18} />} label="Dashboard" />
-          <SidebarItem icon={<FileSearch size={18} />} label="Resume Checker" />
+          <SidebarItem 
+            icon={<FileSearch size={18} />} 
+            label="Resume Checker"
+            onClick={() => handleNavigate("/resume-checker")}
+          />
           <SidebarItem icon={<Brain size={18} />} label="Interview Prep" />
           <SidebarItem icon={<ClipboardList size={18} />} label="Preparation Sheets" />
           <SidebarItem icon={<Sparkles size={18} />} label="AI Tools" />
@@ -152,8 +162,11 @@ const Home = () => {
 export default Home;
 
 /* Sidebar Item */
-const SidebarItem = ({ icon, label }) => (
-  <button className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition">
+const SidebarItem = ({ icon, label, onClick }) => (
+  <button 
+    onClick={onClick}
+    className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition"
+  >
     {icon}
     {label}
   </button>

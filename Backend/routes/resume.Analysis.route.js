@@ -3,7 +3,7 @@ const resumeAnalysisRouter = express.Router()
 
 const authMiddleware = require('../middlewares/auth.middlewares');
 const upload = require('../middlewares/file.middleware')
-const resumeAnalysisController = require('../controllers/resume.Analysis.conrtoller')
+const resumeAnalysisController = require('../controllers/resume.Analysis.controller')
 
 /**
  * @route POST /resume/
@@ -13,5 +13,19 @@ const resumeAnalysisController = require('../controllers/resume.Analysis.conrtol
 
 resumeAnalysisRouter.post('/',authMiddleware,upload.single("resume"),resumeAnalysisController.generateResumeAnalysisController)
 
+
+/** 
+ * @route POST /resume/:id
+ * @description getting a resume analysis by id
+ * @access private
+ */
+resumeAnalysisRouter.get('/:id',authMiddleware,resumeAnalysisController.getResumeAnalysisByIdController)
+
+/**
+ * @route POST /resume/
+ * @description getting a user all  resume analysis 
+ * @access private
+ */
+resumeAnalysisRouter.get('/',authMiddleware,resumeAnalysisController.getUserResumeAnalysisController)
 
 module.exports = resumeAnalysisRouter

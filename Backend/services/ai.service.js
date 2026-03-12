@@ -22,7 +22,7 @@ const resumeAnalysisSchema = z.object({
     })).describe("Behavioral questions that can be asked in the interview along with their intention and how to answer them"),
     skillGaps: z.array(z.object({
         skill: z.string().describe("The skill which the candidate is lacking"),
-        severity: z.enum([ "low", "medium", "high" ]).describe("The severity of this skill gap, i.e. how important is this skill for the job and how much it can impact the candidate's chances")
+        severity: z.enum(["low", "medium", "high"]).describe("The severity of this skill gap, i.e. how important is this skill for the job and how much it can impact the candidate's chances")
     })).describe("List of skill gaps in the candidate's profile along with their severity"),
     preparationPlan: z.array(z.object({
         day: z.number().describe("The day number in the preparation plan, starting from 1"),
@@ -34,12 +34,69 @@ const resumeAnalysisSchema = z.object({
 
 async function generateResumeAnalysisReport({ resume, selfDescription, jobDescription }) {
 
+    const prompt = `
+You are an expert technical interviewer AI.
 
-    const prompt = `Generate an interview report for a candidate with the following details:
-                        Resume: ${resume}
-                        Self Description: ${selfDescription}
-                        Job Description: ${jobDescription}
-`
+Analyze the candidate profile and generate an interview preparation report.
+
+Resume:
+${resume}
+
+Self Description:
+${selfDescription}
+
+Job Description:
+${jobDescription}
+
+You MUST return ONLY valid JSON.
+
+IMPORTANT RULES:
+
+1. The response must be STRICT JSON.
+2. Do NOT flatten arrays.
+3. Arrays must contain OBJECTS.
+4. Do NOT return keys and values as separate strings.
+5. Every question must be an object with question, intention, and answer.
+
+Correct Example: 
+
+{
+  "title": "Full Stack Developer Interview Report",
+  "matchScore": 85,
+  "technicalQuestions": [
+    {
+      "question": "Explain how JWT authentication works in a Node.js application.",
+      "intention": "Test backend authentication knowledge",
+      "answer": "Explain login flow, token generation, verification middleware, and security best practices."
+    }
+  ],
+  "behavioralQuestions": [
+    {
+      "question": "Tell me about a difficult bug you solved.",
+      "intention": "Assess debugging skills",
+      "answer": "Use STAR method and explain the debugging process clearly."
+    }
+  ],
+  "skillGaps": [
+    {
+      "skill": "System Design",
+      "severity": "medium"
+    }
+  ],
+  "preparationPlan": [
+    {
+      "day": 1,
+      "focus": "Data Structures",
+      "tasks": [
+        "Solve array problems",
+        "Practice two pointer technique"
+      ]
+    }
+  ]
+}
+
+Now generate the report for the candidate.
+`;
 
     const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
@@ -50,7 +107,9 @@ async function generateResumeAnalysisReport({ resume, selfDescription, jobDescri
         }
     })
 
-    return JSON.parse(response.text)
+    const cleanText = response.text.replace(/```json|```/g, "").trim()
+
+    return JSON.parse(cleanText)
 
 }
 

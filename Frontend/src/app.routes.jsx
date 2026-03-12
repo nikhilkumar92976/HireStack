@@ -4,6 +4,8 @@ import Singup from "./features/auth/pages/Singup";
 import Home from "../src/pages/Home";
 import Protected from "./features/auth/components/Protected"
 import PublicRoute from "./features/auth/components/PublicRoute"
+import ResumeChecker from "./features/ResumeChecker/pages/ResumeChecker";
+import ResumeCheckerResults from "./features/ResumeChecker/pages/ResumeCheckerResults";
 
 
 
@@ -19,6 +21,18 @@ export const router = createBrowserRouter([
     {
         path: "/",
         element: <Protected><Home /></Protected>
+    },
+    {
+        path: "/resume-checker",
+        element: <Protected><ResumeChecker /></Protected>
+    },
+    {
+        path: "/resume-checker/results",
+        element: <Protected><ResumeCheckerResults /></Protected>
+    },
+    {
+        path: "/resume-checker/results/:id",
+        element: <Protected><ResumeCheckerResults /></Protected>
     },
     
 ])

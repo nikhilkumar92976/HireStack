@@ -4,15 +4,15 @@ const mongoose = require('mongoose');
 const technicalQuestionSchema = new mongoose.Schema({
     question: {
         type: String,
-        required: [ true, "Technical question is required" ]
+       // required: [ true, "Technical question is required" ]
     },
     intention: {
         type: String,
-        required: [ true, "Intention is required" ]
+       // required: [ true, "Intention is required" ]
     },
     answer: {
         type: String,
-        required: [ true, "Answer is required" ]
+       // required: [ true, "Answer is required" ]
     }
 }, {
     _id: false
@@ -21,15 +21,15 @@ const technicalQuestionSchema = new mongoose.Schema({
 const behavioralQuestionSchema = new mongoose.Schema({
     question: {
         type: String,
-        required: [ true, "Technical question is required" ]
+        // required: [ true, "behavioral question is required" ]
     },
     intention: {
         type: String,
-        required: [ true, "Intention is required" ]
+        //required: [ true, "Intention is required" ]
     },
     answer: {
         type: String,
-        required: [ true, "Answer is required" ]
+        //required: [ true, "Answer is required" ]
     }
 }, {
     _id: false
@@ -38,12 +38,12 @@ const behavioralQuestionSchema = new mongoose.Schema({
 const skillGapSchema = new mongoose.Schema({
     skill: {
         type: String,
-        required: [ true, "Skill is required" ]
+       // required: [ true, "Skill is required" ]
     },
     severity: {
         type: String,
-        enum: [ "low", "medium", "high" ],
-        required: [ true, "Severity is required" ]
+        //enum: [ "low", "medium", "high" ],
+        //required: [ true, "Severity is required" ]
     }
 }, {
     _id: false
@@ -51,16 +51,16 @@ const skillGapSchema = new mongoose.Schema({
 
 const preparationPlanSchema = new mongoose.Schema({
     day: {
-        type: Number,
-        required: [ true, "Day is required" ]
+        type: mongoose.Schema.Types.Mixed,
+        //required: [ true, "Day is required" ]
     },
     focus: {
         type: String,
-        required: [ true, "Focus is required" ]
+       // required: [ true, "Focus is required" ]
     },
-    tasks: [ {
+    tasks: [ { 
         type: String,
-        required: [ true, "Task is required" ]
+      // required: [ true, "Task is required" ]
     } ]
 })
 
