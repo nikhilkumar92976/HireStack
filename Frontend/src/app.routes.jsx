@@ -6,6 +6,7 @@ import Protected from "./features/auth/components/Protected"
 import PublicRoute from "./features/auth/components/PublicRoute"
 import ResumeChecker from "./features/ResumeChecker/pages/ResumeChecker";
 import ResumeCheckerResults from "./features/ResumeChecker/pages/ResumeCheckerResults";
+import CreateResume from "./features/ResumeChecker/pages/CreateResume";
 
 
 
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
     {
         path: "/resume-checker/results/:id",
         element: <Protected><ResumeCheckerResults /></Protected>
+    },
+    {
+        path: "/create-resume",
+        element: <Protected><CreateResume /></Protected>
     },
     
 ])

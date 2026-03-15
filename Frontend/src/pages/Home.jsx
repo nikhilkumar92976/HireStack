@@ -41,7 +41,7 @@ const Home = () => {
           <SidebarItem icon={<Brain size={18} />} label="Interview Prep" />
           <SidebarItem icon={<ClipboardList size={18} />} label="Preparation Sheets" />
           <SidebarItem icon={<Sparkles size={18} />} label="AI Tools" />
-          <SidebarItem icon={<FileText size={18} />} label="Resume Builder" />
+          <SidebarItem icon={<FileText size={18} />} label="Resume Builder" onClick={() => handleNavigate("/create-resume")} />
 
         </nav>
 

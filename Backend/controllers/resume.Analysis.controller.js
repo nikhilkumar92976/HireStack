@@ -1,4 +1,4 @@
-const {generateResumeAnalysisReport} = require('../services/ai.service')
+const {generateResumeAnalysisReport,generateResumePdf} = require('../services/ai.service')
 const resumeAnalysisModel = require('../models/resume.Analysis.model')
 const pdfParse = require("pdf-parse")
 
@@ -116,9 +116,36 @@ const getUserResumeAnalysisController = async(req,res)=>{
     }
 }
 
+/**
+ * @description Controller to generating resume by AI
+ */ 
+
+const generateResumeByAI= async(req,res)=>{
+    try{
+        const {name, email, phone, location, github, linkedin, summary,skills,workHistory,projects,education,Achievements,HonorsAndAwards,jobDescription}= req.body;
+
+        const resumePdfBuffer = await generateResumePdf({
+            name, email, phone, location, github, linkedin, summary,skills,workHistory,projects,education,Achievements,HonorsAndAwards,jobDescription
+        })
+
+        // Send the PDF directly as the response (for download in browser/client)
+        res.setHeader("Content-Type", "application/pdf")
+        res.setHeader("Content-Disposition", "attachment; filename=resume.pdf")
+        return res.status(200).send(resumePdfBuffer)
+
+    }catch(err){
+        console.log(err.message);
+        return res.status(500).json({
+            success:false,
+            message:err.message
+        })
+    }
+}
+
 
 module.exports = {
     generateResumeAnalysisController,
     getResumeAnalysisByIdController,
-    getUserResumeAnalysisController
+    getUserResumeAnalysisController,
+    generateResumeByAI
 }

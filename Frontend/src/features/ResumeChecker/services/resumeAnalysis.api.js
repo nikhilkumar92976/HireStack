@@ -59,3 +59,19 @@ export const getAllResumeAnalysis = async () => {
         throw err
     }
 }
+
+/**
+ * @description Create resume using AI
+ */
+export const createResume = async (data) => {
+    try{
+        const response = await api.post('/resume/create-resume', data, {
+            responseType: 'blob' // for PDF download
+        })
+        return response.data
+    }
+    catch(err){
+        console.error("create resume error:", err?.response?.data || err?.message)
+        throw err
+    }
+}

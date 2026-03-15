@@ -28,4 +28,12 @@ resumeAnalysisRouter.get('/:id',authMiddleware,resumeAnalysisController.getResum
  */
 resumeAnalysisRouter.get('/',authMiddleware,resumeAnalysisController.getUserResumeAnalysisController)
 
+/**
+ * @route POST /resume/create-resume
+ * @description create resume using AI
+ * @access private
+ */
+resumeAnalysisRouter.post('/create-resume',authMiddleware,resumeAnalysisController.generateResumeByAI)
+
+
 module.exports = resumeAnalysisRouter
