@@ -33,16 +33,16 @@ const Home = () => {
         <nav className="space-y-2 text-sm">
 
           <SidebarItem icon={<LayoutDashboard size={18} />} label="Dashboard" />
+          <SidebarItem icon={<FileText size={18} />} label="Resume Builder" onClick={() => handleNavigate("/create-resume")} />
           <SidebarItem 
             icon={<FileSearch size={18} />} 
             label="Resume Checker"
             onClick={() => handleNavigate("/resume-checker")}
           />
-          <SidebarItem icon={<Brain size={18} />} label="Interview Prep" />
+          <SidebarItem icon={<Brain size={18} />} label="Interview Prep" onClick={() => handleNavigate("/interview")} />
           <SidebarItem icon={<ClipboardList size={18} />} label="Preparation Sheets" />
           <SidebarItem icon={<Sparkles size={18} />} label="AI Tools" />
-          <SidebarItem icon={<FileText size={18} />} label="Resume Builder" onClick={() => handleNavigate("/create-resume")} />
-
+          
         </nav>
 
         <button
@@ -141,6 +141,7 @@ const Home = () => {
               <Card
                 title="AI Mock Interview"
                 desc="Practice real interview questions."
+                onClick={() => handleNavigate("/interview")}
               />
 
               <Card
@@ -173,8 +174,8 @@ const SidebarItem = ({ icon, label, onClick }) => (
 );
 
 /* Card */
-const Card = ({ title, desc }) => (
-  <div className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md hover:-translate-y-0.5 transition cursor-pointer">
+const Card = ({ title, desc, onClick }) => (
+  <div onClick={onClick} className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md hover:-translate-y-0.5 transition cursor-pointer">
     <h4 className="font-semibold mb-1">{title}</h4>
     <p className="text-sm text-gray-500">{desc}</p>
   </div>

@@ -8,6 +8,8 @@ const ai = new GoogleGenAI({
 })
 
 
+
+//for resume analysis and genarate response using AI
 const resumeAnalysisSchema = z.object({
     matchScore: z.number().describe("A score between 0 and 100 indicating how well the candidate's profile matches the job describe"),
     technicalQuestions: z.array(z.object({
@@ -115,6 +117,8 @@ Now generate the report for the candidate.
 
 
 
+
+//for pdf genatration and resume builder
 async function generatePdfFromHtml(htmlContent) {
     const browser = await puppeteer.launch()
     const page = await browser.newPage();
@@ -205,4 +209,164 @@ async function generateResumePdf({name, email, phone, location, github, linkedin
     return pdfBuffer
 }
 
-module.exports = { generateResumeAnalysisReport, generateResumePdf }
+
+
+//for genarate interview question for interview
+const interviewQuestionSchema = z.object({
+  technicalQuestions: z.array(
+    z.object({
+      question: z
+        .string()
+        .describe("The technical question that can be asked in the interview"),
+
+      intention: z
+        .string()
+        .describe("The intention of the interviewer behind asking this question"),
+
+      answer: z
+        .string()
+        .describe("How the candidate should answer this question and what points to cover")
+    })
+  ).describe("List of technical interview questions with intention and answer explanation")
+});
+
+async function generateInterviewQuestion({ jobTitle, selfDescription, jobDescription }) {
+
+   const prompt = `
+        You are an expert technical interviewer AI.
+
+        Analyze the candidate profile and generate technical interview questions.
+
+        jobTitle:
+        ${jobTitle}
+
+        Self Description:
+        ${selfDescription}
+
+        Job Description:
+        ${jobDescription}
+
+        You MUST return ONLY valid JSON.
+
+        IMPORTANT RULES:
+
+        1. The response must be STRICT JSON.
+        2. Return ONLY an array.
+        3. Each item in the array must be an OBJECT.
+        4. Do NOT return keys and values separately.
+        5. Each object must contain:
+        - question
+        - intention
+        - answer
+
+        Correct Example:
+
+        [
+        {
+            "question": "Explain how JWT authentication works in a Node.js application.",
+            "intention": "Test backend authentication knowledge",
+            "answer": "Explain login flow, token generation, verification middleware, and security practices."
+        },
+        {
+            "question": "What is the difference between useState and useReducer in React?",
+            "intention": "Assess understanding of React state management",
+            "answer": "Explain how useState is for simple state while useReducer handles complex state logic."
+        }
+        ]
+
+        Generate 8-10 interview questions based on the candidate profile.
+        `;
+
+    const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: prompt,
+        config: {
+            responseMimeType: "application/json",
+            responseSchema: zodToJsonSchema(interviewQuestionSchema),
+        }
+    })
+
+    const cleanText = response.text.replace(/```json|```/g, "").trim()
+
+    return JSON.parse(cleanText)
+
+}
+
+
+//for interview score
+
+const interviewScoreSchema = z.object({
+  jobTitle: z
+    .string()
+    .min(1)
+    .describe("Title of the job role for which the interview is conducted"),
+
+  jobDescription: z
+    .string()
+    .min(1)
+    .describe("Description of the job role and requirements"),
+
+  responses: z
+    .array(
+      z.object({
+        question: z
+          .string()
+          .describe("The interview question asked to the candidate"),
+
+        answer: z
+          .string()
+          .describe("The candidate's answer to the interview question")
+      })
+    )
+    .min(1)
+    .describe("List of question and answer pairs from the interview")
+});
+async function generateInterviewScore({ jobTitle, jobDescription, responses }) {
+
+  const formattedQA = responses
+    .map((item, index) => {
+      return `${index + 1}.
+        Question: ${item.question}
+        Answer: ${item.answer}`;
+            })
+            .join("\n\n");
+
+  const prompt = `
+        You are an expert technical interviewer.
+
+        Evaluate the candidate's interview performance based on their answers.
+
+        Job Title:
+        ${jobTitle}
+
+        Job Description:
+        ${jobDescription}
+
+        Candidate Interview Responses:
+        ${formattedQA}
+
+        Return ONLY valid JSON in the following format:
+
+        {
+        "interviewScore": number (0-100),
+        "feedback": "overall feedback about the candidate performance",
+        "strengths": ["strength1","strength2"],
+        "improvements": ["area1","area2"]
+        }
+        `;
+
+        const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: prompt,
+        config: {
+            responseMimeType: "application/json",
+            responseSchema: zodToJsonSchema(interviewScoreSchema),
+        }
+    })
+
+    const cleanText = response.text.replace(/```json|```/g, "").trim()
+
+    return JSON.parse(cleanText)
+}
+
+module.exports = { generateResumeAnalysisReport, generateResumePdf , generateInterviewQuestion, generateInterviewScore}
