@@ -15,8 +15,8 @@ const jonSearchRouter = require('./routes/jobSearch.route')
 const PORT = process.env.PORT || 3000
 const defaultOrigins = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"]
 const allowedOrigins = process.env.CORS_ORIGINS
-    ? process.env.CORS_ORIGINS.split(',').map((origin) => origin.trim()).filter(Boolean)
-    : defaultOrigins
+  ? process.env.CORS_ORIGINS.split(',')
+  : [];
 
 if (process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1)
@@ -29,15 +29,9 @@ connectDatabase();
 app.use(cookieParser())
 app.use(express.json())
 app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            return callback(null, true)
-        }
-
-        return callback(new Error('Not allowed by CORS'))
-    },
-    credentials: true
-})) 
+  origin: allowedOrigins,
+  credentials: true
+}));
  
 
 //using all routes
