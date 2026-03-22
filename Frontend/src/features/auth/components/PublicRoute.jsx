@@ -10,9 +10,9 @@ const PublicRoute = ({children}) => {
         return <SkeletonLoader/>
     }
 
-    // If user is already logged in, redirect to home instead of showing login/signup
+    // If user is already logged in, redirect to dashboard instead of showing login/signup
     if(user){
-        return <Navigate to={'/'} />
+        return <Navigate to={'/dashboard'} />
     }
     
     return children

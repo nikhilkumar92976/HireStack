@@ -27,7 +27,9 @@ const ResumeAnalysisResult = ({ analysis, onBack }) => {
     return () => clearInterval(timer);
   }, [analysis]);
 
-  if (!analysis) return <div className="p-10 text-center text-gray-500">Loading...</div>;
+  if (!analysis) {
+    return <div className="rounded-3xl border border-gray-200 bg-white p-10 text-center text-gray-500 shadow-sm">Loading...</div>;
+  }
 
   const data = analysis;
 
@@ -51,27 +53,27 @@ const ResumeAnalysisResult = ({ analysis, onBack }) => {
           }
         `}
       </style>
-      <div className="min-h-screen bg-gray-50 p-6 md:p-10">
-      <div className="max-w-5xl mx-auto">
+      <div className="space-y-6">
         {/* Back Button */}
         {onBack && (
           <button
             onClick={onBack}
-            className="mb-8 flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors font-semibold"
+            className="inline-flex items-center gap-2 rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-sm transition hover:border-gray-300 hover:bg-gray-50"
           >
             <ArrowLeft size={20} />
-            <span>Back</span>
+            <span>Back to Resume Checker</span>
           </button>
         )}
 
         {/* Header with Match Score - Combined Layout */}
-        <div className="mb-10 opacity-0 animate-fadeIn" style={{ animationDelay: "0s", animationFillMode: "forwards" }}>
-          <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+        <div className="opacity-0 animate-fadeIn" style={{ animationDelay: "0s", animationFillMode: "forwards" }}>
+          <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
             {/* Header Background */}
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-b border-gray-200 p-6">
+            <div className="border-b border-gray-200 bg-gradient-to-r from-slate-50 via-white to-blue-50 p-6 md:p-8">
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 {/* Left Side - Title and Info */}
                 <div className="flex-1">
+                  <p className="mb-3 text-sm font-medium text-blue-600">Analysis complete</p>
                   <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                     {data.title}
                   </h1>
@@ -113,9 +115,9 @@ const ResumeAnalysisResult = ({ analysis, onBack }) => {
         </div>
 
         {/* Job Description */}
-        <div className="mb-8 opacity-0 animate-fadeIn" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
-          <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-            <div className="border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 flex items-center gap-3">
+        <div className="opacity-0 animate-fadeIn" style={{ animationDelay: "0.1s", animationFillMode: "forwards" }}>
+          <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+            <div className="flex items-center gap-3 border-b border-gray-200 bg-gradient-to-r from-slate-50 to-blue-50 px-6 py-4">
               <BookOpen className="text-blue-600" size={24} />
               <h2 className="text-xl font-bold text-gray-900">Job Description</h2>
             </div>
@@ -128,26 +130,26 @@ const ResumeAnalysisResult = ({ analysis, onBack }) => {
         </div>
 
         {/* Technical Questions */}
-        <div className="mb-8 opacity-0 animate-fadeIn" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
-          <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-            <div className="border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 flex items-center justify-between">
+        <div className="opacity-0 animate-fadeIn" style={{ animationDelay: "0.2s", animationFillMode: "forwards" }}>
+          <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+            <div className="flex items-center justify-between border-b border-gray-200 bg-gradient-to-r from-slate-50 to-blue-50 px-6 py-4">
               <div className="flex items-center gap-3">
                 <Zap className="text-blue-600" size={24} />
                 <h2 className="text-xl font-bold text-gray-900">Technical Questions</h2>
               </div>
-              <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm font-semibold">
+              <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700">
                 {data.technicalQuestions?.length || 0}
               </span>
             </div>
 
             <div className="divide-y divide-gray-200">
               {data.technicalQuestions?.map((q, index) => (
-                <div key={index} className="hover:bg-gray-50 transition-colors">
+                <div key={index} className="transition-colors hover:bg-gray-50">
                   <button
                     onClick={() =>
                       setExpandedTech(expandedTech === index ? null : index)
                     }
-                    className="w-full px-6 py-4 flex items-center justify-between hover:bg-blue-50/50 transition-colors"
+                    className="flex w-full items-center justify-between px-6 py-4 transition-colors hover:bg-blue-50/50"
                   >
                     <span className="text-left text-gray-900 font-semibold flex-1">
                       Q{index + 1}: {q.question}
@@ -161,11 +163,11 @@ const ResumeAnalysisResult = ({ analysis, onBack }) => {
                   </button>
 
                   {expandedTech === index && (
-                    <div className="border-t border-gray-200 bg-blue-50/30 px-6 py-4 space-y-4">
+                    <div className="space-y-4 border-t border-gray-200 bg-blue-50/30 px-6 py-4">
                       {q.intention && (
                         <div>
                           <p className="text-sm font-semibold text-gray-700 mb-2">💡 Intention:</p>
-                          <p className="text-gray-700 bg-white p-3 rounded border border-gray-200">
+                          <p className="rounded-2xl border border-gray-200 bg-white p-3 text-gray-700">
                             {q.intention}
                           </p>
                         </div>
@@ -174,7 +176,7 @@ const ResumeAnalysisResult = ({ analysis, onBack }) => {
                       {q.answer && (
                         <div>
                           <p className="text-sm font-semibold text-gray-700 mb-2">✅ Expected Answer:</p>
-                          <p className="text-gray-700 bg-white p-3 rounded border border-gray-200">
+                          <p className="rounded-2xl border border-gray-200 bg-white p-3 text-gray-700">
                             {q.answer}
                           </p>
                         </div>
@@ -188,26 +190,26 @@ const ResumeAnalysisResult = ({ analysis, onBack }) => {
         </div>
 
         {/* Behavioral Questions */}
-        <div className="mb-8 opacity-0 animate-fadeIn" style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
-          <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-            <div className="border-b border-gray-200 bg-gradient-to-r from-purple-50 to-pink-50 px-6 py-4 flex items-center justify-between">
+        <div className="opacity-0 animate-fadeIn" style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
+          <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+            <div className="flex items-center justify-between border-b border-gray-200 bg-gradient-to-r from-slate-50 to-purple-50 px-6 py-4">
               <div className="flex items-center gap-3">
                 <AlertCircle className="text-purple-600" size={24} />
                 <h2 className="text-xl font-bold text-gray-900">Behavioral Questions</h2>
               </div>
-              <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-sm font-semibold">
+              <span className="rounded-full bg-purple-100 px-3 py-1 text-sm font-semibold text-purple-700">
                 {data.behavioralQuestions?.length || 0}
               </span>
             </div>
 
             <div className="divide-y divide-gray-200">
               {data.behavioralQuestions?.map((q, index) => (
-                <div key={index} className="hover:bg-gray-50 transition-colors">
+                <div key={index} className="transition-colors hover:bg-gray-50">
                   <button
                     onClick={() =>
                       setExpandedBehavior(expandedBehavior === index ? null : index)
                     }
-                    className="w-full px-6 py-4 flex items-center justify-between hover:bg-purple-50/50 transition-colors"
+                    className="flex w-full items-center justify-between px-6 py-4 transition-colors hover:bg-purple-50/50"
                   >
                     <span className="text-left text-gray-900 font-semibold flex-1">
                       Q{index + 1}: {q.question}
@@ -225,7 +227,7 @@ const ResumeAnalysisResult = ({ analysis, onBack }) => {
                       {q.answer && (
                         <div>
                           <p className="text-sm font-semibold text-gray-700 mb-3">💬 Suggested Answer:</p>
-                          <p className="text-gray-700 bg-white p-4 rounded border border-gray-200 leading-relaxed">
+                          <p className="rounded-2xl border border-gray-200 bg-white p-4 leading-relaxed text-gray-700">
                             {q.answer}
                           </p>
                         </div>
@@ -239,14 +241,14 @@ const ResumeAnalysisResult = ({ analysis, onBack }) => {
         </div>
 
         {/* Skill Gaps */}
-        <div className="mb-8 opacity-0 animate-fadeIn" style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}>
-          <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-            <div className="border-b border-gray-200 bg-gradient-to-r from-red-50 to-orange-50 px-6 py-4 flex items-center justify-between">
+        <div className="opacity-0 animate-fadeIn" style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}>
+          <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+            <div className="flex items-center justify-between border-b border-gray-200 bg-gradient-to-r from-slate-50 to-red-50 px-6 py-4">
               <div className="flex items-center gap-3">
                 <AlertCircle className="text-red-600" size={24} />
                 <h2 className="text-xl font-bold text-gray-900">Skill Gaps</h2>
               </div>
-              <span className="bg-red-100 text-red-700 px-3 py-1 rounded-lg text-sm font-semibold">
+              <span className="rounded-full bg-red-100 px-3 py-1 text-sm font-semibold text-red-700">
                 {data.skillGaps?.length || 0}
               </span>
             </div>
@@ -255,7 +257,7 @@ const ResumeAnalysisResult = ({ analysis, onBack }) => {
               {data.skillGaps?.map((skill, index) => (
                 <div
                   key={index}
-                  className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg text-sm font-semibold hover:border-red-300 transition-colors hover:scale-105 transform duration-200"
+                  className="rounded-2xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition-colors duration-200 hover:border-red-300"
                 >
                   📍 {skill.skill}
                 </div>
@@ -266,8 +268,8 @@ const ResumeAnalysisResult = ({ analysis, onBack }) => {
 
         {/* Preparation Plan */}
         <div className="opacity-0 animate-fadeIn" style={{ animationDelay: "0.5s", animationFillMode: "forwards" }}>
-          <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-            <div className="border-b border-gray-200 bg-gradient-to-r from-green-50 to-emerald-50 px-6 py-4 flex items-center gap-3">
+          <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+            <div className="flex items-center gap-3 border-b border-gray-200 bg-gradient-to-r from-slate-50 to-green-50 px-6 py-4">
               <CheckCircle className="text-green-600" size={24} />
               <h2 className="text-xl font-bold text-gray-900">Preparation Plan</h2>
             </div>
@@ -277,7 +279,7 @@ const ResumeAnalysisResult = ({ analysis, onBack }) => {
                 {data.preparationPlan?.map((day, index) => (
                   <div
                     key={index}
-                    className="bg-green-50/50 border border-green-200 rounded-lg p-5 hover:border-green-300 transition-colors hover:scale-105 transform duration-200"
+                    className="rounded-3xl border border-green-200 bg-green-50/50 p-5 transition-colors duration-200 hover:border-green-300"
                   >
                     <div className="flex items-center gap-3 mb-3">
                       <div className="bg-gradient-to-br from-green-500 to-emerald-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">
@@ -303,7 +305,6 @@ const ResumeAnalysisResult = ({ analysis, onBack }) => {
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

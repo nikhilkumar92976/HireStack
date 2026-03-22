@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { createResume } from "../services/resumeAnalysis.api";
 import {
   FileText,
@@ -73,7 +72,6 @@ const steps = [
 ];
 
 export default function CreateResume() {
-  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
@@ -188,6 +186,15 @@ export default function CreateResume() {
 
   const currentStepData = steps[currentStep];
   const IconComponent = currentStepData.icon;
+  const inputClassName =
+    "w-full rounded-2xl border border-gray-300 bg-[#fcfcfb] px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-black";
+  const textAreaClassName = `${inputClassName} min-h-32 resize-none`;
+  const addButtonClassName =
+    "inline-flex items-center gap-2 rounded-2xl bg-black px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-800";
+  const removeButtonClassName =
+    "inline-flex items-center gap-2 rounded-2xl border border-red-200 bg-white px-3 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50";
+  const itemCardClassName =
+    "space-y-3 rounded-3xl border border-gray-200 bg-gray-50 p-4";
 
   const renderStepContent = () => {
     switch (currentStepData.id) {
@@ -205,7 +212,7 @@ export default function CreateResume() {
                   value={formData.name}
                   onChange={(e) => handleInputChange("name", e.target.value)}
                   placeholder="John Doe"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={inputClassName}
                   required
                 />
               </div>
@@ -219,7 +226,7 @@ export default function CreateResume() {
                   value={formData.email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   placeholder="john@example.com"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={inputClassName}
                   required
                 />
               </div>
@@ -233,7 +240,7 @@ export default function CreateResume() {
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
                   placeholder="+1 (555) 123-4567"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={inputClassName}
                 />
               </div>
               <div className="space-y-2">
@@ -246,7 +253,7 @@ export default function CreateResume() {
                   value={formData.location}
                   onChange={(e) => handleInputChange("location", e.target.value)}
                   placeholder="New York, NY"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={inputClassName}
                 />
               </div>
             </div>
@@ -261,7 +268,7 @@ export default function CreateResume() {
                   value={formData.github}
                   onChange={(e) => handleInputChange("github", e.target.value)}
                   placeholder="https://github.com/johndoe"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={inputClassName}
                 />
               </div>
               <div className="space-y-2">
@@ -274,7 +281,7 @@ export default function CreateResume() {
                   value={formData.linkedin}
                   onChange={(e) => handleInputChange("linkedin", e.target.value)}
                   placeholder="https://linkedin.com/in/johndoe"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={inputClassName}
                 />
               </div>
             </div>
@@ -290,7 +297,7 @@ export default function CreateResume() {
               value={formData.jobDescription}
               onChange={(e) => handleInputChange("jobDescription", e.target.value)}
               placeholder="Paste the job description here..."
-              className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              className={textAreaClassName}
               required
             />
           </div>
@@ -305,7 +312,7 @@ export default function CreateResume() {
               value={formData.summary}
               onChange={(e) => handleInputChange("summary", e.target.value)}
               placeholder="Write a brief summary about yourself..."
-              className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              className={textAreaClassName}
               required
             />
           </div>
@@ -320,7 +327,7 @@ export default function CreateResume() {
               <button
                 type="button"
                 onClick={() => handleArrayAdd("skills")}
-                className="flex items-center gap-2 px-3 py-1 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition"
+                className={addButtonClassName}
               >
                 <Plus size={14} />
                 Add Skill
@@ -334,12 +341,12 @@ export default function CreateResume() {
                     value={skill}
                     onChange={(e) => handleArrayUpdate("skills", index, null, e.target.value)}
                     placeholder="e.g., JavaScript, React, Python"
-                    className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className={`flex-1 ${inputClassName}`}
                   />
                   <button
                     type="button"
                     onClick={() => handleArrayRemove("skills", index)}
-                    className="p-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                    className="rounded-2xl border border-red-200 bg-white p-3 text-red-600 transition hover:bg-red-50"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -358,7 +365,7 @@ export default function CreateResume() {
               <button
                 type="button"
                 onClick={() => handleArrayAdd("workHistory")}
-                className="flex items-center gap-2 px-3 py-1 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition"
+                className={addButtonClassName}
               >
                 <Plus size={14} />
                 Add Experience
@@ -366,40 +373,40 @@ export default function CreateResume() {
             </div>
             <div className="space-y-4">
               {formData.workHistory.map((exp, index) => (
-                <div key={index} className="p-4 border border-gray-200 rounded-lg space-y-3">
+                <div key={index} className={itemCardClassName}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <input
                       type="text"
                       value={exp.position || ""}
                       onChange={(e) => handleArrayUpdate("workHistory", index, "position", e.target.value)}
                       placeholder="Position/Title"
-                      className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className={inputClassName}
                     />
                     <input
                       type="text"
                       value={exp.company || ""}
                       onChange={(e) => handleArrayUpdate("workHistory", index, "company", e.target.value)}
                       placeholder="Company"
-                      className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className={inputClassName}
                     />
                     <input
                       type="text"
                       value={exp.duration || ""}
                       onChange={(e) => handleArrayUpdate("workHistory", index, "duration", e.target.value)}
                       placeholder="Duration (e.g., 2020-2023)"
-                      className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className={inputClassName}
                     />
                   </div>
                   <textarea
                     value={exp.description || ""}
                     onChange={(e) => handleArrayUpdate("workHistory", index, "description", e.target.value)}
                     placeholder="Describe your responsibilities and achievements..."
-                    className="w-full h-20 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    className={`${inputClassName} min-h-24 resize-none`}
                   />
                   <button
                     type="button"
                     onClick={() => handleArrayRemove("workHistory", index)}
-                    className="flex items-center gap-2 px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition"
+                    className={removeButtonClassName}
                   >
                     <Trash2 size={14} />
                     Remove
@@ -419,7 +426,7 @@ export default function CreateResume() {
               <button
                 type="button"
                 onClick={() => handleArrayAdd("projects")}
-                className="flex items-center gap-2 px-3 py-1 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition"
+                className={addButtonClassName}
               >
                 <Plus size={14} />
                 Add Project
@@ -427,31 +434,31 @@ export default function CreateResume() {
             </div>
             <div className="space-y-4">
               {formData.projects.map((proj, index) => (
-                <div key={index} className="p-4 border border-gray-200 rounded-lg space-y-3">
+                <div key={index} className={itemCardClassName}>
                   <input
                     type="text"
                     value={proj.name || ""}
                     onChange={(e) => handleArrayUpdate("projects", index, "name", e.target.value)}
                     placeholder="Project Name"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className={inputClassName}
                   />
                   <textarea
                     value={proj.description || ""}
                     onChange={(e) => handleArrayUpdate("projects", index, "description", e.target.value)}
                     placeholder="Project description..."
-                    className="w-full h-20 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    className={`${inputClassName} min-h-24 resize-none`}
                   />
                   <input
                     type="text"
                     value={proj.technologies || ""}
                     onChange={(e) => handleArrayUpdate("projects", index, "technologies", e.target.value)}
                     placeholder="Technologies used (e.g., React, Node.js)"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className={inputClassName}
                   />
                   <button
                     type="button"
                     onClick={() => handleArrayRemove("projects", index)}
-                    className="flex items-center gap-2 px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition"
+                    className={removeButtonClassName}
                   >
                     <Trash2 size={14} />
                     Remove
@@ -471,7 +478,7 @@ export default function CreateResume() {
               <button
                 type="button"
                 onClick={() => handleArrayAdd("education")}
-                className="flex items-center gap-2 px-3 py-1 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition"
+                className={addButtonClassName}
               >
                 <Plus size={14} />
                 Add Education
@@ -479,34 +486,34 @@ export default function CreateResume() {
             </div>
             <div className="space-y-4">
               {formData.education.map((edu, index) => (
-                <div key={index} className="p-4 border border-gray-200 rounded-lg space-y-3">
+                <div key={index} className={itemCardClassName}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <input
                       type="text"
                       value={edu.degree || ""}
                       onChange={(e) => handleArrayUpdate("education", index, "degree", e.target.value)}
                       placeholder="Degree (e.g., B.S. Computer Science)"
-                      className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className={inputClassName}
                     />
                     <input
                       type="text"
                       value={edu.institution || ""}
                       onChange={(e) => handleArrayUpdate("education", index, "institution", e.target.value)}
                       placeholder="Institution"
-                      className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className={inputClassName}
                     />
                     <input
                       type="text"
                       value={edu.year || ""}
                       onChange={(e) => handleArrayUpdate("education", index, "year", e.target.value)}
                       placeholder="Year (e.g., 2020)"
-                      className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className={inputClassName}
                     />
                   </div>
                   <button
                     type="button"
                     onClick={() => handleArrayRemove("education", index)}
-                    className="flex items-center gap-2 px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition"
+                    className={removeButtonClassName}
                   >
                     <Trash2 size={14} />
                     Remove
@@ -526,7 +533,7 @@ export default function CreateResume() {
               <button
                 type="button"
                 onClick={() => handleArrayAdd("Achievements")}
-                className="flex items-center gap-2 px-3 py-1 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition"
+                className={addButtonClassName}
               >
                 <Plus size={14} />
                 Add Achievement
@@ -540,12 +547,12 @@ export default function CreateResume() {
                     value={achievement}
                     onChange={(e) => handleArrayUpdate("Achievements", index, null, e.target.value)}
                     placeholder="e.g., Increased team productivity by 30%"
-                    className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className={`flex-1 ${inputClassName}`}
                   />
                   <button
                     type="button"
                     onClick={() => handleArrayRemove("Achievements", index)}
-                    className="p-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                    className="rounded-2xl border border-red-200 bg-white p-3 text-red-600 transition hover:bg-red-50"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -559,7 +566,7 @@ export default function CreateResume() {
               <button
                 type="button"
                 onClick={() => handleArrayAdd("HonorsAndAwards")}
-                className="flex items-center gap-2 px-3 py-1 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition"
+                className={addButtonClassName}
               >
                 <Plus size={14} />
                 Add Honor/Award
@@ -573,12 +580,12 @@ export default function CreateResume() {
                     value={honor}
                     onChange={(e) => handleArrayUpdate("HonorsAndAwards", index, null, e.target.value)}
                     placeholder="e.g., Dean's List 2022"
-                    className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className={`flex-1 ${inputClassName}`}
                   />
                   <button
                     type="button"
                     onClick={() => handleArrayRemove("HonorsAndAwards", index)}
-                    className="p-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                    className="rounded-2xl border border-red-200 bg-white p-3 text-red-600 transition hover:bg-red-50"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -593,124 +600,208 @@ export default function CreateResume() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 p-6">
-      {/* Page Header */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-2">
-          <FileText size={28} className="text-blue-600" />
-          <h1 className="text-3xl font-bold text-gray-900">Create Resume</h1>
-        </div>
-        <p className="text-gray-600">
-          Generate a professional resume tailored to your job application.
-        </p>
-      </div>
-
-      {/* Progress Indicator */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-        <div className="flex items-center justify-between mb-4">
-          {steps.map((step, index) => (
-            <div
-              key={step.id}
-              className={`flex items-center ${
-                index === currentStep
-                  ? "text-blue-600"
-                  : index < currentStep
-                  ? "text-green-600"
-                  : "text-gray-400"
-              }`}
-            >
-              <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                  index === currentStep
-                    ? "bg-blue-600 text-white"
-                    : index < currentStep
-                    ? "bg-green-600 text-white"
-                    : "bg-gray-200 text-gray-600"
-                }`}
-              >
-                {index + 1}
+    <div className="min-h-screen bg-[#f5f5f3] px-4 py-6 md:px-8">
+      <div className="mx-auto max-w-7xl space-y-6">
+        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm md:p-8">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-sm font-medium text-blue-600">Resume workflow</p>
+              <div className="mt-2 flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black text-white">
+                  <FileText size={22} />
+                </div>
+                <div>
+                  <h1 className="text-3xl font-semibold text-gray-900 md:text-4xl">
+                    Create Resume
+                  </h1>
+                  <p className="mt-1 max-w-2xl text-sm text-gray-500 md:text-base">
+                    Build a polished, job-targeted resume using the same clean,
+                    guided design language as the interview flow.
+                  </p>
+                </div>
               </div>
-              {index < steps.length - 1 && (
-                <div
-                  className={`w-12 h-0.5 mx-2 ${
-                    index < currentStep ? "bg-green-600" : "bg-gray-200"
-                  }`}
-                />
-              )}
             </div>
-          ))}
-        </div>
-        <div className="text-center">
-          <h2 className="text-xl font-semibold text-gray-900 flex items-center justify-center gap-2">
-            <IconComponent size={24} />
-            {currentStepData.title}
-          </h2>
-          <p className="text-gray-600 mt-1">{currentStepData.description}</p>
-        </div>
-      </div>
 
-      {/* Form Content */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-        <div className="transition-opacity duration-300 ease-in-out">
-          {renderStepContent()}
-        </div>
-
-        {/* Navigation Buttons */}
-        <div className="flex justify-between mt-8">
-          <button
-            onClick={handlePrev}
-            disabled={currentStep === 0}
-            className="flex items-center gap-2 px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition"
-          >
-            <ChevronLeft size={16} />
-            Previous
-          </button>
-          {currentStep === steps.length - 1 ? (
-            <button
-              onClick={handleSubmit}
-              disabled={loading}
-              className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
-            >
-              <Sparkles size={16} />
-              {loading ? "Generating..." : "Generate Resume"}
-            </button>
-          ) : (
-            <button
-              onClick={handleNext}
-              className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-            >
-              Next
-              <ChevronRight size={16} />
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Generated Resume Display */}
-      {generatedResumeUrl && (
-        <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-              <FileText size={24} className="text-green-600" />
-              Generated Resume
-            </h2>
-            <button
-              onClick={handleDownload}
-              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
-            >
-              <FileText size={16} />
-              Download PDF
-            </button>
-          </div>
-          <div className="border border-gray-300 rounded-lg overflow-hidden">
-            <iframe
-              src={generatedResumeUrl}
-              className="w-full h-96"
-              title="Generated Resume"
-            />
+            <div className="grid gap-3 sm:grid-cols-3 lg:min-w-[420px]">
+              <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
+                <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                  Current step
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-gray-900">
+                  {currentStep + 1}/{steps.length}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
+                <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                  Focus
+                </p>
+                <p className="mt-2 text-lg font-semibold text-gray-900">
+                  {currentStepData.title}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
+                <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                  Output
+                </p>
+                <p className="mt-2 text-lg font-semibold text-gray-900">PDF resume</p>
+              </div>
+            </div>
           </div>
         </div>
-      )}
+
+        <div className="grid gap-6 xl:grid-cols-[320px_minmax(0,1fr)]">
+          <div className="space-y-6 xl:sticky xl:top-6 xl:self-start">
+            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+              <p className="text-sm font-medium text-blue-600">Progress</p>
+              <h2 className="mt-2 text-2xl font-semibold text-gray-900">
+                Guided resume setup
+              </h2>
+              <p className="mt-2 text-sm text-gray-500">
+                Complete each section in order. The form logic stays the same—only the interface is refreshed.
+              </p>
+
+              <div className="mt-6 space-y-3">
+                {steps.map((step, index) => {
+                  const StepIcon = step.icon;
+                  const isCurrent = index === currentStep;
+                  const isComplete = index < currentStep;
+
+                  return (
+                    <div
+                      key={step.id}
+                      className={`rounded-2xl border p-4 transition ${
+                        isCurrent
+                          ? "border-blue-200 bg-blue-50"
+                          : isComplete
+                            ? "border-green-200 bg-green-50"
+                            : "border-gray-200 bg-gray-50"
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <div
+                          className={`flex h-10 w-10 items-center justify-center rounded-2xl ${
+                            isCurrent
+                              ? "bg-blue-600 text-white"
+                              : isComplete
+                                ? "bg-green-600 text-white"
+                                : "bg-white text-gray-500"
+                          }`}
+                        >
+                          <StepIcon size={18} />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-gray-900">
+                            {step.title}
+                          </p>
+                          <p className="mt-1 text-xs leading-5 text-gray-500">
+                            {step.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
+              <div className="rounded-3xl border border-gray-200 bg-white p-5 shadow-sm">
+                <p className="text-sm font-medium text-blue-600">ATS-friendly flow</p>
+                <p className="mt-2 text-sm leading-6 text-gray-500">
+                  Add role context, summary, projects, and experience in a structured sequence.
+                </p>
+              </div>
+              <div className="rounded-3xl border border-gray-200 bg-white p-5 shadow-sm">
+                <p className="text-sm font-medium text-blue-600">Responsive layout</p>
+                <p className="mt-2 text-sm leading-6 text-gray-500">
+                  The new card-based layout stays readable on both desktop and mobile screens.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm md:p-8">
+              <div className="mb-6 flex flex-col gap-4 border-b border-gray-200 pb-6 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <p className="text-sm font-medium text-blue-600">Active section</p>
+                  <h2 className="mt-2 flex items-center gap-2 text-2xl font-semibold text-gray-900">
+                    <IconComponent size={24} />
+                    {currentStepData.title}
+                  </h2>
+                  <p className="mt-2 text-sm text-gray-500">
+                    {currentStepData.description}
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700">
+                  Step {currentStep + 1} of {steps.length}
+                </div>
+              </div>
+
+              <div className="transition-opacity duration-300 ease-in-out">
+                {renderStepContent()}
+              </div>
+
+              <div className="mt-8 flex flex-col gap-3 border-t border-gray-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
+                <button
+                  onClick={handlePrev}
+                  disabled={currentStep === 0}
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-gray-200 bg-white px-6 py-3 text-sm font-medium text-gray-700 transition hover:border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <ChevronLeft size={16} />
+                  Previous
+                </button>
+                {currentStep === steps.length - 1 ? (
+                  <button
+                    onClick={handleSubmit}
+                    disabled={loading}
+                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-black px-6 py-3 text-sm font-medium text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-400"
+                  >
+                    <Sparkles size={16} />
+                    {loading ? "Generating..." : "Generate Resume"}
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleNext}
+                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-blue-700"
+                  >
+                    Next
+                    <ChevronRight size={16} />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {generatedResumeUrl && (
+              <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm md:p-8">
+                <div className="mb-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-blue-600">Generated output</p>
+                    <h2 className="mt-2 flex items-center gap-2 text-2xl font-semibold text-gray-900">
+                      <FileText size={24} className="text-green-600" />
+                      Generated Resume
+                    </h2>
+                  </div>
+                  <button
+                    onClick={handleDownload}
+                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-green-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-green-700"
+                  >
+                    <FileText size={16} />
+                    Download PDF
+                  </button>
+                </div>
+                <div className="overflow-hidden rounded-3xl border border-gray-200">
+                  <iframe
+                    src={generatedResumeUrl}
+                    className="h-96 w-full bg-white"
+                    title="Generated Resume"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

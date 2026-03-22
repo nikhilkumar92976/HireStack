@@ -1,4 +1,4 @@
-import { useContext} from "react";
+import { useCallback, useContext } from "react";
 import {ResumeAnalysisContext} from '../resumeAnalysis.context'
 import {getAllResumeAnalysis,getResumeAnalysisById,resumeAnaylsis} from '../services/resumeAnalysis.api'
 
@@ -9,7 +9,7 @@ export const useResumeAnalysis =()=>{
     }
     const { resumeAnalysis, setResumeAnalysis,allResumeAnalysis,setAllResumeAnalysis ,loading, setLoading } = context
 
-    const handleResumeAnalysis = async ({ title, resumeFile, selfDescription, jobDescription }) => {
+    const handleResumeAnalysis = useCallback(async ({ title, resumeFile, selfDescription, jobDescription }) => {
         setLoading(true)
         try {
             const data = await resumeAnaylsis({ title, resumeFile, selfDescription, jobDescription })
@@ -22,9 +22,9 @@ export const useResumeAnalysis =()=>{
         } finally {
             setLoading(false)
         }
-    }
+    }, [setLoading, setResumeAnalysis])
 
-    const handleGetResumeAnalysisById = async (id) => {
+    const handleGetResumeAnalysisById = useCallback(async (id) => {
         setLoading(true)
         try {
             const data = await getResumeAnalysisById(id)
@@ -37,9 +37,9 @@ export const useResumeAnalysis =()=>{
         } finally {
             setLoading(false)
         }
-    }
+    }, [setLoading, setResumeAnalysis])
 
-    const handleGetAllResumeAnalysis = async () => {
+    const handleGetAllResumeAnalysis = useCallback(async () => {
         setLoading(true)
         try {
             const data = await getAllResumeAnalysis()
@@ -52,7 +52,7 @@ export const useResumeAnalysis =()=>{
         } finally {
             setLoading(false)
         }
-    }
+    }, [setLoading, setAllResumeAnalysis])
 
     return {loading,resumeAnalysis,allResumeAnalysis,handleResumeAnalysis,handleGetResumeAnalysisById,handleGetAllResumeAnalysis}
 }

@@ -16,7 +16,7 @@ export default function InterviewPage() {
         <InterviewHeader
           stage={session.stage}
           questionCount={session.questions.length}
-          onBack={() => navigate("/")}
+          onBack={() => navigate("/dashboard")}
         />
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(340px,0.9fr)]">
@@ -62,7 +62,7 @@ export default function InterviewPage() {
                 elapsedSeconds={session.elapsedSeconds}
                 jobTitle={session.formData.jobTitle}
                 onReset={session.handleReset}
-                onBack={() => navigate("/")}
+                onBack={() => navigate("/dashboard")}
               />
             )}
           </div>

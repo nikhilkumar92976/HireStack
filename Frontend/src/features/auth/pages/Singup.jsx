@@ -3,6 +3,7 @@ import {Link,useNavigate} from 'react-router-dom'
 import {useAuth} from '../hooks/useAuth'
 import SkeletonLoader from '../../../components/SkeletonLoader'
 import { toast } from "react-toastify";
+import MarketingLayout from '../../../components/MarketingLayout';
 
 const Signup = () => {
   const [email,setEmail] = useState("");
@@ -21,7 +22,7 @@ const Signup = () => {
             const res = await handleSingup({username,email,password})
             toast.success("Account created successfully!")
             if (res && res.user) {
-                navigate("/")
+                navigate("/dashboard")
             }
         } catch (err) {
             console.error('Signup error:', err)
@@ -39,91 +40,76 @@ const Signup = () => {
     }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm">
+    <MarketingLayout>
+      <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[minmax(0,1.1fr)_440px]">
+        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm md:p-8 lg:p-10">
+          <p className="text-sm font-medium text-blue-600">Create your account</p>
+          <h1 className="mt-2 text-4xl font-semibold tracking-tight text-gray-900 md:text-5xl">
+            Start using HireStack with a public-first and protected-workspace flow.
+          </h1>
+          <p className="mt-4 max-w-2xl text-sm leading-7 text-gray-600 md:text-base">
+            After signup you can move directly into the internal dashboard for resume building,
+            resume analysis, mock interviews, and job search.
+          </p>
+        </div>
 
-        {/* App Name / Logo */}
-        <h1 className="text-3xl font-semibold text-center mb-8">
-          Hirestack
-        </h1>
+        <form onSubmit={handleSubmit} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm md:p-8">
+          <h2 className="text-2xl font-semibold text-gray-900">Signup</h2>
+          <p className="mt-2 text-sm text-gray-500">Create a protected account to access all features.</p>
 
-        {/* Signup Form UI */}
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+            <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-red-700" role="alert">
               <p className="font-medium">Error</p>
               <p className="text-sm">{error}</p>
             </div>
           )}
-        <div className="space-y-3">
-          <input
-            type="text"
-            placeholder="Username"
-            onChange={(e)=>{setUsername(e.target.value)}}
-            className="
-              w-full px-3 py-2 text-sm
-              border border-gray-300 rounded
-              focus:outline-none focus:ring-1 focus:ring-black
-            "
-          />
 
-          <input
-            type="email"
-            placeholder="Email"
-            onChange={(e)=>{setEmail(e.target.value)}}
-            className="
-              w-full px-3 py-2 text-sm
-              border border-gray-300 rounded
-              focus:outline-none focus:ring-1 focus:ring-black
-            "
-          />
+          <div className="mt-6 space-y-4">
+            <input
+              type="text"
+              placeholder="Username"
+              onChange={(e)=>{setUsername(e.target.value)}}
+              className="w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm focus:border-blue-600 focus:outline-none"
+            />
 
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={(e)=>{setPassword(e.target.value)}}
-            className="
-              w-full px-3 py-2 text-sm
-              border border-gray-300 rounded
-              focus:outline-none focus:ring-1 focus:ring-black
-            "
-          />
+            <input
+              type="email"
+              placeholder="Email"
+              onChange={(e)=>{setEmail(e.target.value)}}
+              className="w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm focus:border-blue-600 focus:outline-none"
+            />
 
-          <button
-            className="
-              w-full py-2 mt-2
-              text-sm font-medium text-white
-              bg-black rounded
-              active:scale-95 transition
-            "
-          >
-            Sign up
-          </button>
-        </div>
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={(e)=>{setPassword(e.target.value)}}
+              className="w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm focus:border-blue-600 focus:outline-none"
+            />
 
-        {/* Terms */}
-        <p className="text-xs text-gray-500 text-center mt-4 px-4">
-          By signing up, you agree to our{" "}
-          <span className="font-medium">Terms</span> &{" "}
-          <span className="font-medium">Privacy Policy</span>.
-        </p>
+            <button className="w-full rounded-2xl bg-blue-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-blue-700">
+              Sign up
+            </button>
+          </div>
 
-        {/* Divider */}
-        <div className="flex items-center my-6">
-          <div className="flex-1 h-px bg-gray-200" />
-          <span className="px-3 text-xs text-gray-400">OR</span>
-          <div className="flex-1 h-px bg-gray-200" />
-        </div>
+          <p className="mt-4 text-xs text-gray-500">
+            By creating an account, you can access the protected HireStack dashboard and its AI preparation tools.
+          </p>
 
-        {/* Login Redirect */}
-        <p className="text-sm text-center text-gray-600">
-          Already have an account?{" "}
-          <Link to='/login' className="font-medium text-black cursor-pointer">
-            Log in
-          </Link>
-        </p>
+          <div className="mt-6 flex items-center gap-3 text-sm text-gray-500">
+            <div className="h-px flex-1 bg-gray-200" />
+            <span>OR</span>
+            <div className="h-px flex-1 bg-gray-200" />
+          </div>
 
-      </form>
-    </div>
+          <p className="mt-6 text-sm text-gray-600">
+            Already have an account?{" "}
+            <Link to='/login' className="font-medium text-blue-600 cursor-pointer">
+              Log in
+            </Link>
+          </p>
+        </form>
+      </div>
+    </MarketingLayout>
   );
 };
 

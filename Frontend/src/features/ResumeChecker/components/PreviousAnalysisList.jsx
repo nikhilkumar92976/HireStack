@@ -1,13 +1,11 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { useResumeAnalysis } from "../hooks/useResumeAnalysis";
 import { Calendar, Briefcase, ChevronRight } from "lucide-react";
 
 export default function PreviousAnalysisList({ onSelectAnalysis }) {
   const { allResumeAnalysis, handleGetAllResumeAnalysis, loading } =
     useResumeAnalysis();
-  const [displayedItems, setDisplayedItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
   const observerTarget = useRef(null);
   const itemsPerPage = 5;
 
@@ -22,17 +20,22 @@ export default function PreviousAnalysisList({ onSelectAnalysis }) {
     };
 
     fetchAnalyses();
-  }, []);
+  }, [handleGetAllResumeAnalysis]);
 
-  // Implement lazy loading logic
-  useEffect(() => {
-    if (allResumeAnalysis && allResumeAnalysis.length > 0) {
-      const startIndex = 0;
-      const endIndex = currentPage * itemsPerPage;
-      const itemsToDisplay = allResumeAnalysis.slice(startIndex, endIndex);
-      setDisplayedItems(itemsToDisplay);
-      setHasMore(endIndex < allResumeAnalysis.length);
+  const displayedItems = useMemo(() => {
+    if (!allResumeAnalysis || allResumeAnalysis.length === 0) {
+      return [];
     }
+
+    return allResumeAnalysis.slice(0, currentPage * itemsPerPage);
+  }, [allResumeAnalysis, currentPage]);
+
+  const hasMore = useMemo(() => {
+    if (!allResumeAnalysis || allResumeAnalysis.length === 0) {
+      return false;
+    }
+
+    return currentPage * itemsPerPage < allResumeAnalysis.length;
   }, [allResumeAnalysis, currentPage]);
 
   // Intersection Observer for infinite scroll
@@ -73,7 +76,7 @@ export default function PreviousAnalysisList({ onSelectAnalysis }) {
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className="h-24 bg-gray-200 rounded-lg"
+            className="h-28 rounded-3xl bg-gray-100"
           />
         ))}
       </div>
@@ -82,9 +85,9 @@ export default function PreviousAnalysisList({ onSelectAnalysis }) {
 
   if (!allResumeAnalysis || allResumeAnalysis.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-500 text-sm">No previous analyses yet.</p>
-        <p className="text-gray-400 text-xs mt-2">
+      <div className="rounded-3xl border border-dashed border-gray-200 bg-gray-50 py-12 text-center">
+        <p className="text-sm text-gray-500">No previous analyses yet.</p>
+        <p className="mt-2 text-xs text-gray-400">
           Analyze your resume to see results here.
         </p>
       </div>
@@ -97,12 +100,7 @@ export default function PreviousAnalysisList({ onSelectAnalysis }) {
         <div
           key={analysis._id || index}
           onClick={() => handleSelectAnalysis(analysis)}
-          className="
-            p-4 bg-white border border-gray-200 rounded-lg
-            hover:shadow-md hover:border-gray-300 cursor-pointer
-            transition duration-200
-            group
-          "
+          className="group cursor-pointer rounded-2xl border border-gray-200 bg-[#fcfcfb] p-4 transition duration-200 hover:border-gray-300 hover:bg-white hover:shadow-sm"
         >
           <div className="flex items-start justify-between">
             <div className="flex-1 min-w-0">
@@ -124,7 +122,7 @@ export default function PreviousAnalysisList({ onSelectAnalysis }) {
                 </div>
 
                 {analysis.matchScore != null && (
-                  <div className="inline-block px-2 py-1 bg-blue-50 text-blue-600 rounded text-xs font-medium">
+                  <div className="inline-block rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600">
                     {analysis.matchScore}% Match
                   </div>
                 )}
@@ -151,13 +149,13 @@ export default function PreviousAnalysisList({ onSelectAnalysis }) {
           ref={observerTarget}
           className="flex justify-center items-center py-6"
         >
-          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-black" />
+          <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-black" />
         </div>
       )}
 
       {!hasMore && displayedItems.length > 0 && (
-        <div className="text-center py-4">
-          <p className="text-gray-500 text-sm">
+        <div className="rounded-2xl bg-gray-50 py-4 text-center">
+          <p className="text-sm text-gray-500">
             You've viewed all {allResumeAnalysis.length} analyses
           </p>
         </div>

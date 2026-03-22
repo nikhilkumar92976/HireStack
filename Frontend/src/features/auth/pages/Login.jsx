@@ -3,6 +3,7 @@ import {Link,useNavigate} from 'react-router-dom'
 import {useAuth} from '../hooks/useAuth'
 import SkeletonLoader from '../../../components/SkeletonLoader'
 import { toast } from "react-toastify";
+import MarketingLayout from '../../../components/MarketingLayout';
 
 
 const Login = () => {
@@ -22,7 +23,7 @@ const Login = () => {
             const result = await handleLogin({identifire,password})
             toast.success("login successfully")
             if (result && result.user) {
-                navigate("/")
+                navigate("/dashboard")
             }
         } catch (err) {
             console.error('Login error:', err)
@@ -39,78 +40,64 @@ const Login = () => {
     </main>)
   }
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm">
+    <MarketingLayout>
+      <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[minmax(0,1.1fr)_440px]">
+        <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm md:p-8 lg:p-10">
+          <p className="text-sm font-medium text-blue-600">Welcome back</p>
+          <h1 className="mt-2 text-4xl font-semibold tracking-tight text-gray-900 md:text-5xl">
+            Sign in to continue with your preparation dashboard.
+          </h1>
+          <p className="mt-4 max-w-2xl text-sm leading-7 text-gray-600 md:text-base">
+            Access your resume tools, AI mock interview workspace, and job discovery flow from one protected account.
+          </p>
+        </div>
 
-        {/* App Name */}
-        <h1 className="text-3xl font-semibold text-center mb-8">
-          Hirestack
-        </h1>
+        <form onSubmit={handleSubmit} className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm md:p-8">
+          <h2 className="text-2xl font-semibold text-gray-900">Login</h2>
+          <p className="mt-2 text-sm text-gray-500">Use your username or email to enter HireStack.</p>
 
-        {/* Login Form UI */}
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+            <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-red-700" role="alert">
               <p className="font-medium">Error</p>
               <p className="text-sm">{error}</p>
             </div>
           )}
-        <div className="space-y-3">
-          <input
-            type="text"
-            placeholder="Username or Email"
-            onChange={(e)=>setIdentifire(e.target.value)}
-            className="
-              w-full px-3 py-2 text-sm
-              border border-gray-300 rounded
-              focus:outline-none focus:ring-1 focus:ring-black
-            "
-          />
 
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={(e)=>setPassword(e.target.value)}
-            className="
-              w-full px-3 py-2 text-sm
-              border border-gray-300 rounded
-              focus:outline-none focus:ring-1 focus:ring-black
-            "
-          />
+          <div className="mt-6 space-y-4">
+            <input
+              type="text"
+              placeholder="Username or Email"
+              onChange={(e)=>setIdentifire(e.target.value)}
+              className="w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm focus:border-blue-600 focus:outline-none"
+            />
 
-          <button
-            className="
-              w-full py-2 mt-2
-              text-sm font-medium text-white
-              bg-black rounded
-              active:scale-95 transition
-            "
-          >
-            Log in
-          </button>
-        </div>
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={(e)=>setPassword(e.target.value)}
+              className="w-full rounded-2xl border border-gray-300 px-4 py-3 text-sm focus:border-blue-600 focus:outline-none"
+            />
 
-        {/* Forgot Password */}
-        <p className="text-xs text-center text-gray-600 mt-4 cursor-pointer">
-          Forgot password?
-        </p>
+            <button className="w-full rounded-2xl bg-blue-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-blue-700">
+              Log in
+            </button>
+          </div>
 
-        {/* Divider */}
-        <div className="flex items-center my-6">
-          <div className="flex-1 h-px bg-gray-200" />
-          <span className="px-3 text-xs text-gray-400">OR</span>
-          <div className="flex-1 h-px bg-gray-200" />
-        </div>
+          <div className="mt-6 flex items-center gap-3 text-sm text-gray-500">
+            <div className="h-px flex-1 bg-gray-200" />
+            <span>OR</span>
+            <div className="h-px flex-1 bg-gray-200" />
+          </div>
 
-        {/* Signup Redirect */}
-        <p className="text-sm text-center text-gray-600">
-          Don&apos;t have an account?{" "}
-          <Link to='/singup' className="font-medium text-black cursor-pointer">
-            Sign up
-          </Link>
-        </p>
-
-      </form>
-    </div>
+          <p className="mt-6 text-sm text-gray-600">
+            Don&apos;t have an account?{" "}
+            <Link to='/singup' className="font-medium text-blue-600 cursor-pointer">
+              Sign up
+            </Link>
+          </p>
+        </form>
+      </div>
+    </MarketingLayout>
   );
 };
 

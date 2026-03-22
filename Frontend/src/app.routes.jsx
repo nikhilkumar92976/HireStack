@@ -2,16 +2,32 @@ import { createBrowserRouter } from "react-router";
 import Login from "./features/auth/pages/Login"
 import Singup from "./features/auth/pages/Singup";
 import Home from "../src/pages/Home";
+import LandingPage from "./pages/LandingPage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
 import Protected from "./features/auth/components/Protected"
 import PublicRoute from "./features/auth/components/PublicRoute"
 import ResumeChecker from "./features/ResumeChecker/pages/ResumeChecker";
 import ResumeCheckerResults from "./features/ResumeChecker/pages/ResumeCheckerResults";
 import CreateResume from "./features/ResumeChecker/pages/CreateResume";
 import InterviewPage from "./features/interview/pages/InterviewPage"
+import Job from "./features/job/pages/Job"
 
 
 
 export const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <LandingPage />
+    },
+    {
+        path: "/about",
+        element: <AboutPage />
+    },
+    {
+        path: "/contact",
+        element: <ContactPage />
+    },
     {
         path: "/login",
         element: <PublicRoute><Login /></PublicRoute>
@@ -21,7 +37,7 @@ export const router = createBrowserRouter([
         element: <PublicRoute><Singup /></PublicRoute>
     },
     {
-        path: "/",
+        path: "/dashboard",
         element: <Protected><Home /></Protected>
     },
     {
@@ -43,5 +59,9 @@ export const router = createBrowserRouter([
     {
         path: "/interview",
         element: <Protected><InterviewPage /></Protected>
+    },
+    {
+        path: "/job",
+        element: <Protected><Job /></Protected>
     },
 ])

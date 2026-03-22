@@ -4,6 +4,20 @@ const jwt = require('jsonwebtoken')
 const sendEmail = require('../services/sendmail.service')
 const emailTemplate = require('../utils/email.template')
 
+const AUTH_COOKIE_NAME = 'token'
+const isProduction = process.env.NODE_ENV === 'production'
+const cookieSameSite = process.env.COOKIE_SAME_SITE || (isProduction ? 'none' : 'lax')
+const cookieSecure = process.env.COOKIE_SECURE ? process.env.COOKIE_SECURE === 'true' : isProduction
+const cookieDomain = process.env.COOKIE_DOMAIN
+
+const buildCookieOptions = (overrides = {}) => ({
+    httpOnly: true,
+    sameSite: cookieSameSite,
+    secure: cookieSecure,
+    ...(cookieDomain ? { domain: cookieDomain } : {}),
+    ...overrides,
+})
+
 //createAccount controller
 const createAccount = async (req, res) => {
     try {
@@ -40,11 +54,9 @@ const createAccount = async (req, res) => {
         //creating the token and set into the cookies 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
 
-        res.cookie("token", token,
-            {
-                httpOnly: true,
-                maxAge: 7 * 24 * 60 * 60 * 1000
-            })
+        res.cookie(AUTH_COOKIE_NAME, token, buildCookieOptions({
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        }))
 
         //now send the mail to user for successfully creation user account
         // try {
@@ -115,12 +127,9 @@ const login = async (req, res) => {
 
         //creating token and now user login
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' })
-        res.cookie("token", token, {
-            httpOnly: true,
+        res.cookie(AUTH_COOKIE_NAME, token, buildCookieOptions({
             maxAge: 7 * 24 * 60 * 60 * 1000,
-            sameSite: 'lax',
-            secure: false
-        })
+        }))
 
         return res.status(200).json({
             success: true,
@@ -151,12 +160,10 @@ const deleteAccount = async (req, res) => {
         }
         await user.deleteOne();
 
-        res.cookie("token", "", {
-            httpOnly: true,
+        res.cookie(AUTH_COOKIE_NAME, '', buildCookieOptions({
             expires: new Date(0),
-            sameSite: 'lax',
-            secure: false
-        })
+            maxAge: 0,
+        }))
 
         return res.status(200).json({
             success: true,
@@ -174,12 +181,10 @@ const deleteAccount = async (req, res) => {
 //logout controller
 const userLogout = async (req, res) => {
     try {
-        res.cookie("token", "", {
-            httpOnly: true,
+        res.cookie(AUTH_COOKIE_NAME, '', buildCookieOptions({
             expires: new Date(0),
-            sameSite: 'lax',
-            secure: false
-        })
+            maxAge: 0,
+        }))
 
         return res.status(200).json({
             success: true,

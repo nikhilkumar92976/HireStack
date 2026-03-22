@@ -144,8 +144,33 @@ export default function ResumeAnalysisForm({ onSuccess }) {
     }
   };
 
+  const getFieldClassName = (hasError = false) => `w-full rounded-2xl border bg-[#fcfcfb] px-4 py-3 text-sm text-gray-900 outline-none transition ${
+    hasError ? "border-red-400 focus:border-red-500" : "border-gray-300 focus:border-black"
+  }`;
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid gap-4 rounded-2xl bg-gray-50 p-4 md:grid-cols-3">
+        <div className="rounded-2xl border border-gray-200 bg-white p-4">
+          <p className="font-medium text-gray-900">Upload or paste</p>
+          <p className="mt-1 text-xs text-gray-500">
+            Either a file or pasted resume text can be analyzed.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-gray-200 bg-white p-4">
+          <p className="font-medium text-gray-900">Role-aware feedback</p>
+          <p className="mt-1 text-xs text-gray-500">
+            The job title and description shape the matching insights.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-gray-200 bg-white p-4">
+          <p className="font-medium text-gray-900">Structured results</p>
+          <p className="mt-1 text-xs text-gray-500">
+            Get questions, skill gaps, and a preparation plan after submission.
+          </p>
+        </div>
+      </div>
+
       {/* Job Title */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -160,16 +185,7 @@ export default function ResumeAnalysisForm({ onSuccess }) {
           value={formData.title}
           onChange={handleChange}
           placeholder="e.g., Senior React Developer"
-          className={`
-            w-full px-4 py-2 text-sm
-            border rounded-lg
-            focus:outline-none focus:ring-1
-            ${
-              errors.title
-                ? "border-red-500 focus:ring-red-500"
-                : "border-gray-300 focus:ring-black"
-            }
-          `}
+          className={getFieldClassName(Boolean(errors.title))}
         />
         {errors.title && (
           <p className="mt-1 text-xs text-red-500">{errors.title}</p>
@@ -188,9 +204,8 @@ export default function ResumeAnalysisForm({ onSuccess }) {
         {!resumeFileName ? (
           <label
             className={`
-              relative flex flex-col items-center justify-center
-              w-full py-8 px-4 border-2 border-dashed rounded-lg
-              cursor-pointer transition
+              relative flex w-full cursor-pointer flex-col items-center justify-center
+              rounded-3xl border-2 border-dashed px-4 py-10 text-center transition
               ${
                 errors.resume
                   ? "border-red-300 bg-red-50 hover:bg-red-100"
@@ -203,10 +218,10 @@ export default function ResumeAnalysisForm({ onSuccess }) {
                 size={32}
                 className={errors.resume ? "text-red-500" : "text-gray-400"}
               />
-              <p className="mt-2 text-sm font-medium text-gray-700">
+              <p className="mt-3 text-sm font-medium text-gray-700">
                 Click to upload or drag and drop
               </p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="mt-1 text-xs text-gray-500">
                 PDF, DOC, DOCX, or TXT (Max 5MB)
               </p>
             </div>
@@ -218,7 +233,7 @@ export default function ResumeAnalysisForm({ onSuccess }) {
             />
           </label>
         ) : (
-          <div className="p-4 bg-green-50 border border-green-300 rounded-lg flex items-center justify-between">
+          <div className="flex items-center justify-between rounded-2xl border border-green-200 bg-green-50 p-4">
             <div className="flex items-center gap-3">
               <FileText size={20} className="text-green-600" />
               <div>
@@ -229,7 +244,7 @@ export default function ResumeAnalysisForm({ onSuccess }) {
             <button
               type="button"
               onClick={handleRemoveFile}
-              className="p-1 hover:bg-green-200 rounded transition"
+              className="rounded-xl p-2 transition hover:bg-green-100"
             >
               <X size={18} className="text-green-600" />
             </button>
@@ -242,8 +257,8 @@ export default function ResumeAnalysisForm({ onSuccess }) {
 
         {/* Alternative text input */}
         <div className="mt-4 relative">
-          <details className="cursor-pointer">
-            <summary className="text-xs text-gray-500 hover:text-gray-700">
+          <details className="cursor-pointer rounded-2xl border border-gray-200 bg-white px-4 py-3">
+            <summary className="text-xs font-medium text-gray-500 hover:text-gray-700">
               Or paste resume text instead
             </summary>
             <textarea
@@ -252,72 +267,57 @@ export default function ResumeAnalysisForm({ onSuccess }) {
               onChange={handleChange}
               placeholder="Paste your resume content here..."
               rows="4"
-              className="
-                w-full px-4 py-2 text-sm mt-2
-                border border-gray-300 rounded-lg resize-none
-                focus:outline-none focus:ring-1 focus:ring-black
-              "
+              className="mt-3 min-h-32 w-full rounded-2xl border border-gray-300 bg-[#fcfcfb] px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-black"
             />
           </details>
         </div>
       </div>
 
-      {/* Job Description */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          <div className="flex items-center gap-2">
-            <Sparkles size={16} />
-            Job Description *
-          </div>
-        </label>
-        <textarea
-          name="jobDescription"
-          value={formData.jobDescription}
-          onChange={handleChange}
-          placeholder="Paste the job description here..."
-          rows="6"
-          className={`
-            w-full px-4 py-2 text-sm
-            border rounded-lg resize-none
-            focus:outline-none focus:ring-1
-            ${
-              errors.jobDescription
-                ? "border-red-500 focus:ring-red-500"
-                : "border-gray-300 focus:ring-black"
-            }
-          `}
-        />
-        {errors.jobDescription && (
-          <p className="mt-1 text-xs text-red-500">{errors.jobDescription}</p>
-        )}
-        <p className="mt-1 text-xs text-gray-500">
-          {formData.jobDescription.length} characters
-        </p>
-      </div>
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Job Description */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="flex items-center gap-2">
+              <Sparkles size={16} />
+              Job Description *
+            </div>
+          </label>
+          <textarea
+            name="jobDescription"
+            value={formData.jobDescription}
+            onChange={handleChange}
+            placeholder="Paste the job description here..."
+            rows="6"
+            className={`${getFieldClassName(Boolean(errors.jobDescription))} min-h-40 resize-none`}
+          />
+          {errors.jobDescription && (
+            <p className="mt-1 text-xs text-red-500">{errors.jobDescription}</p>
+          )}
+          <p className="mt-1 text-xs text-gray-500">
+            {formData.jobDescription.length} characters
+          </p>
+        </div>
 
-      {/* Self Description */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          <div className="flex items-center gap-2">
-            <User size={16} />
-            About Yourself (Optional)
-          </div>
-        </label>
-        <textarea
-          name="selfDescription"
-          value={formData.selfDescription}
-          onChange={handleChange}
-          placeholder="Tell us about your experience, skills, and achievements..."
-          rows="4"
-          className="
-            w-full px-4 py-2 text-sm
-            border border-gray-300 rounded-lg resize-none
-            focus:outline-none focus:ring-1 focus:ring-black
-          "
-        />
-        <p className="mt-1 text-xs text-gray-500">
-          {formData.selfDescription.length} characters
-        </p>
+        {/* Self Description */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="flex items-center gap-2">
+              <User size={16} />
+              About Yourself (Optional)
+            </div>
+          </label>
+          <textarea
+            name="selfDescription"
+            value={formData.selfDescription}
+            onChange={handleChange}
+            placeholder="Tell us about your experience, skills, and achievements..."
+            rows="4"
+            className={`${getFieldClassName()} min-h-40 resize-none`}
+          />
+          <p className="mt-1 text-xs text-gray-500">
+            {formData.selfDescription.length} characters
+          </p>
+        </div>
       </div>
 
       {/* Submit Button */}
@@ -325,13 +325,10 @@ export default function ResumeAnalysisForm({ onSuccess }) {
         type="submit"
         disabled={loading}
         className={`
-          w-full py-3 px-4
-          font-medium text-white
-          rounded-lg
-          transition duration-200
+          inline-flex w-full items-center justify-center rounded-2xl px-4 py-3 text-sm font-medium text-white transition duration-200
           ${
             loading
-              ? "bg-gray-400 cursor-not-allowed"
+              ? "cursor-not-allowed bg-gray-400"
               : "bg-black hover:bg-gray-800 active:scale-95"
           }
         `}
