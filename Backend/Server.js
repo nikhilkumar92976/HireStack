@@ -14,8 +14,10 @@ const jonSearchRouter = require('./routes/jobSearch.route')
 
 const PORT = process.env.PORT || 3000
 const defaultOrigins = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"]
+const normalizeOrigin = (origin = '') => origin.trim().replace(/\/+$/, '')
+const isLocalDevOrigin = (origin = '') => /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)
 const allowedOrigins = process.env.CORS_ORIGINS
-    ? process.env.CORS_ORIGINS.split(',').map((origin) => origin.trim()).filter(Boolean)
+    ? process.env.CORS_ORIGINS.split(',').map(normalizeOrigin).filter(Boolean)
     : defaultOrigins
 
 if (process.env.NODE_ENV === 'production') {
@@ -30,7 +32,9 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
+        const normalizedOrigin = normalizeOrigin(origin)
+
+        if (!origin || allowedOrigins.includes(normalizedOrigin) || (!process.env.CORS_ORIGINS && isLocalDevOrigin(normalizedOrigin))) {
             return callback(null, true)
         }
 
