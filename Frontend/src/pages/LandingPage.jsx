@@ -3,7 +3,7 @@ import {
   ArrowUpRight, Brain, BriefcaseBusiness, FileSearch,
   FileText, ShieldCheck, Sparkles, CheckCircle2,
 } from "lucide-react";
- 
+import { ImFlattr } from "react-icons/im";
 /* ─── GLOBAL STYLES ──────────────────────────────────────────────────────── */
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
@@ -252,10 +252,10 @@ export default function LandingPage() {
       <div className="wrap">
         {/* NAV */}
         <nav className="nav">
-          <div className="logo">Hire<em>Stack</em></div>
+          <div className="logo flex items-center gap-0.5"> <ImFlattr />ire<em>Stack</em></div>
           <div className="nav-r">
             <a href="/login" className="n-link">Login</a>
-            <a href="/signup" className="n-cta">Get started <ArrowUpRight size={13} /></a>
+            <a href="/singup" className="n-cta">Get started <ArrowUpRight size={13} /></a>
           </div>
         </nav>
         <div className="rule" />
@@ -274,7 +274,7 @@ export default function LandingPage() {
               mock interviews and job discovery, all under one roof.
             </p>
             <div className="hero-actions">
-              <a href="/signup" className="btn-gold">Start free <ArrowUpRight size={15} /></a>
+              <a href="/singup" className="btn-gold">Start free <ArrowUpRight size={15} /></a>
               <a href="/dashboard" className="btn-ghost">View dashboard</a>
             </div>
           </div>
@@ -356,7 +356,7 @@ export default function LandingPage() {
           <h2 className="cta-h">Ready to get <i>hired</i><br />faster than ever?</h2>
           <p className="cta-sub">Join thousands of candidates who used HireStack to go from uncertain to offer-ready in record time.</p>
           <div className="cta-actions">
-            <a href="/signup" className="btn-gold">Create free account <ArrowUpRight size={15} /></a>
+            <a href="/singup" className="btn-gold">Create free account <ArrowUpRight size={15} /></a>
             <a href="/login" className="btn-ghost">Sign in</a>
           </div>
         </div>

@@ -6,7 +6,8 @@ import {
   ClipboardList, LogOut, Search, FileSearch,
   ArrowUpRight, ChevronRight,
 } from "lucide-react";
- 
+import { ImFlattr } from "react-icons/im";
+
 /* ─── DATA ─────────────────────────────────────────────────────────────── */
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Dashboard",          path: "/dashboard" },
@@ -87,8 +88,8 @@ const Home = () => {
             {/* brand + nav */}
             <div className="rounded-2xl border border-amber-700/20 bg-[#100e0c] p-5">
               {/* logo */}
-              <div className="fraunces mb-1 text-lg font-bold text-amber-50">
-                Hire<em className="italic text-amber-400">Stack</em>
+              <div className="fraunces mb-1 text-lg font-bold text-amber-50 flex items-center gap-0.5">
+                <ImFlattr/>ire<em className="italic text-amber-400">Stack</em>
               </div>
               <p className="jakarta text-[0.72rem] font-light text-stone-600">
                 Your complete interview prep workspace.
