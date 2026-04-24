@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from "react-router-dom";
 import Login from "./features/auth/pages/Login"
 import Singup from "./features/auth/pages/Singup";
 import Home from "../src/pages/Home";

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   ArrowUpRight, Brain, BriefcaseBusiness, FileSearch,
   FileText, ShieldCheck, Sparkles, CheckCircle2,
@@ -254,8 +255,8 @@ export default function LandingPage() {
         <nav className="nav">
           <div className="logo flex items-center gap-0.5"> <ImFlattr />ire<em>Stack</em></div>
           <div className="nav-r">
-            <a href="/login" className="n-link">Login</a>
-            <a href="/singup" className="n-cta">Get started <ArrowUpRight size={13} /></a>
+            <Link to="/login" className="n-link">Login</Link>
+            <Link to="/singup" className="n-cta">Get started <ArrowUpRight size={13} /></Link>
           </div>
         </nav>
         <div className="rule" />
@@ -274,8 +275,8 @@ export default function LandingPage() {
               mock interviews and job discovery, all under one roof.
             </p>
             <div className="hero-actions">
-              <a href="/singup" className="btn-gold">Start free <ArrowUpRight size={15} /></a>
-              <a href="/dashboard" className="btn-ghost">View dashboard</a>
+              <Link to="/singup" className="btn-gold">Start free <ArrowUpRight size={15} /></Link>
+              <Link to="/dashboard" className="btn-ghost">View dashboard</Link>
             </div>
           </div>
         </section>
@@ -356,8 +357,8 @@ export default function LandingPage() {
           <h2 className="cta-h">Ready to get <i>hired</i><br />faster than ever?</h2>
           <p className="cta-sub">Join thousands of candidates who used HireStack to go from uncertain to offer-ready in record time.</p>
           <div className="cta-actions">
-            <a href="/singup" className="btn-gold">Create free account <ArrowUpRight size={15} /></a>
-            <a href="/login" className="btn-ghost">Sign in</a>
+            <Link to="/singup" className="btn-gold">Create free account <ArrowUpRight size={15} /></Link>
+            <Link to="/login" className="btn-ghost">Sign in</Link>
           </div>
         </div>
  
