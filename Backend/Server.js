@@ -4,6 +4,7 @@ require('dotenv').config()
 const connectDatabase = require('./config/connect.database')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+// const path = require('path')
 
 
 //imports routes
@@ -13,16 +14,26 @@ const interviewQuestionRouter = require('./routes/interview.route')
 const jonSearchRouter = require('./routes/jobSearch.route')
 
 const PORT = process.env.PORT || 3000
-const defaultOrigins = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"]
-const normalizeOrigin = (origin = '') => origin.trim().replace(/\/+$/, '')
-const isLocalDevOrigin = (origin = '') => /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)
-const allowedOrigins = process.env.CORS_ORIGINS
-    ? process.env.CORS_ORIGINS.split(',').map((origin) => origin.trim()).filter(Boolean)
-    : defaultOrigins
 
-if (process.env.NODE_ENV === 'production') {
-    app.set('trust proxy', 1)
+// const _dirname = path.resolve();
+
+// const defaultOrigins = ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"]
+// const normalizeOrigin = (origin = '') => origin.trim().replace(/\/+$/, '')
+// const isLocalDevOrigin = (origin = '') => /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)
+// const allowedOrigins = process.env.CORS_ORIGINS
+//     ? process.env.CORS_ORIGINS.split(',').map((origin) => origin.trim()).filter(Boolean)
+//     : defaultOrigins
+
+// if (process.env.NODE_ENV === 'production') {
+//     app.set('trust proxy', 1)
+// }
+
+const corsOptions = {
+    origin: true,
+    credentials:true
 }
+app.use(cors(corsOptions));
+
 
 //connecting to databse
 connectDatabase(); 
@@ -30,16 +41,17 @@ connectDatabase();
 //adding middlewares
 app.use(cookieParser())
 app.use(express.json())
-app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            return callback(null, true)
-        }
 
-        return callback(new Error('Not allowed by CORS'))
-    },
-    credentials: true
-})) 
+// app.use(cors({
+//     origin: (origin, callback) => {
+//         if (!origin || allowedOrigins.includes(origin)) {
+//             return callback(null, true)
+//         }
+
+//         return callback(new Error('Not allowed by CORS'))
+//     },
+//     credentials: true
+// })) 
  
 
 //using all routes
@@ -47,6 +59,11 @@ app.use('/auth',authRouter);
 app.use('/resume',resumeAnalysisRouter)
 app.use('/interview',interviewQuestionRouter)
 app.use('/job-search',jonSearchRouter)
+
+// app.use(express.static(path.join(_dirname, "/Frontend/dist")));
+// app.get("*", (_,res)=>{
+//     res.sendFile(path.resolve(_dirname,"Frontend","dist","index.html"))
+// })
 
 app.listen(PORT,(req,res)=>{
     console.log(`APP is Listen on the PORT Number ${PORT}`)

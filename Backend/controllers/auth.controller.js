@@ -22,6 +22,7 @@ const buildCookieOptions = (overrides = {}) => ({
 const createAccount = async (req, res) => {
     try {
         const { username, email, password, role } = req.body;
+        console.log(username)
         //data validation
         if (!username || !email || !password) {
             return res.status(403).json({
