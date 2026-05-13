@@ -1,20 +1,13 @@
-import { useAuth } from "../hooks/useAuth";
 import { Navigate } from "react-router";
 import React from 'react'
-import SkeletonLoader from "../../../components/SkeletonLoader"
 
-const Protected = ({children}) => {
-    const { loading,user } = useAuth()
+const Protected = ({ children }) => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
 
-
-    if(loading){
-        return <SkeletonLoader />
-    }
-
-    if(!user){
+    if (!token) {
         return <Navigate to={'/login'} />
     }
-    
+
     return children
 }
 

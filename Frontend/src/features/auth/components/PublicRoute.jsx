@@ -1,20 +1,13 @@
-import { useAuth } from "../hooks/useAuth";
 import { Navigate } from "react-router";
 import React from 'react'
-import SkeletonLoader from "../../../components/SkeletonLoader"
 
-const PublicRoute = ({children}) => {
-    const { loading, user } = useAuth()
+const PublicRoute = ({ children }) => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
 
-    if(loading){
-        return <SkeletonLoader/>
-    }
-
-    // If user is already logged in, redirect to dashboard instead of showing login/signup
-    if(user){
+    if (token) {
         return <Navigate to={'/dashboard'} />
     }
-    
+
     return children
 }
 

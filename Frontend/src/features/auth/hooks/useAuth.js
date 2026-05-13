@@ -1,8 +1,6 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../auth.context";
-import { userSingUp, userLogin,userLogout, getMe } from "../services/auth.api";
-
-
+import { userSingUp, userLogin, userLogout } from "../services/auth.api";
 
 export const useAuth = () => {
 
@@ -81,23 +79,6 @@ export const useAuth = () => {
     //     getAndSetUser()
 
     // }, [])
-
-    useEffect(() => {
-        // Check if user has a valid token on app load
-        const verifyTokenAndFetchUser = async () => {
-            try {
-                const data = await getMe()
-                setUser(data.user)
-            } catch {
-                // No valid token or user not authenticated
-                setUser(null)
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        verifyTokenAndFetchUser()
-    }, [setLoading, setUser])
 
     return { user, loading, handleSingup, handleLogin, handleLogout }
 }

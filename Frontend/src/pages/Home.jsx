@@ -16,7 +16,7 @@ const sidebarItems = [
   { icon: Brain,           label: "Interview Prep",     path: "/interview" },
   { icon: ClipboardList,   label: "Job Search",         path: "/job" },
   { icon: ClipboardList,   label: "Preparation Sheets" },
-  { icon: Sparkles,        label: "AI Tools" },
+  { icon: Sparkles,        label: "AI Bot",             path: "/chat" },
 ];
  
 const learningSections = [

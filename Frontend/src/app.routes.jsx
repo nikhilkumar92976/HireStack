@@ -12,6 +12,7 @@ import ResumeCheckerResults from "./features/ResumeChecker/pages/ResumeCheckerRe
 import CreateResume from "./features/ResumeChecker/pages/CreateResume";
 import InterviewPage from "./features/interview/pages/InterviewPage"
 import Job from "./features/job/pages/Job"
+import Chatbot from "./features/AI/pages/chatbot"
 
 
 
@@ -63,5 +64,9 @@ export const router = createBrowserRouter([
     {
         path: "/job",
         element: <Protected><Job /></Protected>
+    },
+    {
+        path: "/chat",
+        element: <Protected><Chatbot /></Protected>
     },
 ])
